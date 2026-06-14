@@ -1,12 +1,10 @@
 // Lecture06.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
 
 #include <iostream>
 #include <string>
 #include <vector>
 
 using namespace std;
-
 
 class Person
 {
@@ -23,8 +21,13 @@ public:
     }
     virtual string toString()
     {
-        string res = "Person named " + name + " has phone number " + phone + " and can be reached at " + email;
-        return res;
+        return "Person named " + name + " has phone number " + phone + " and can be reached at " + email;
+        // updated formatting - see previous below
+        // string res = "Person named " + name + " has phone number " + phone + " and can be reached at " + email;
+        // return res;
+    }
+    virtual ~Person()
+    {
     }
 
 };
@@ -35,28 +38,34 @@ private:
     string year;
 public:
     Student(string n, string p, string e, string y)
-        :Person(n, p, e), year(y) { }
+        :Person(n, p, e), year(y) {
+    }
     string toString() override
     {
-        string res = Person::toString();
-        res += " is in the " + year + " year.";
-        return res;
+        return Person::toString() + " is in the " + year + " year";
+        // updated formatting - see previous below
+        // string res = Person::toString();
+        // res += " is in the " + year + " year.";
+        // return res;
 
     }
 };
 
 class Employee :public Person
 {
-private: 
+private:
     double salary;
 public:
     Employee(string n, string p, string e, double s)
-        :Person(n, p, e), salary(s) { } // Initialize the salady data member
+        :Person(n, p, e), salary(s) {
+    } // Initialize the salady data member
     string toString() override
     {
-        string res = Person::toString();
-        res += " earns " + to_string(salary) + " annually ";
-        return res;
+        return Person::toString() + " earns " + to_string(salary) + " annually";
+        // updated formatting - see previous below
+        // string res = Person::toString();
+        // res += " earns " + to_string(salary) + " annually ";
+        // return res;
     }
 
 };
@@ -65,23 +74,35 @@ class Faculty :public Employee
 {
 private:
     string title;
-public: 
+public:
     Faculty(string n, string p, string e, double s, string t)
-        :Employee(n, p, e, s), title(t){ }
+        :Employee(n, p, e, s), title(t) {
+    }
 
     string toString() override
     {
-        string res = Employee::toString();
-        res += "is a/an " + title;
-        return res;
+        return Employee::toString() + " is a/an " + title;
+        // updated formatting - see previous below
+        // string res = Employee::toString();
+        // res += "is a/an " + title;
+        // return res;
     }
 };
 
+class Staff :public Employee
+{
+private:
+    string role;
+public:
+    Staff(string n, string p, string e, double s, string r)
+        :Employee(n, p, e, s), role(r) {
+    }
 
-
-//PENDING: Class called Staff that subclasses Employee and adds a role
-
-
+    string toString() override
+    {
+        return Employee::toString() + " handles " + role;
+    }
+};
 
 int main()
 {
@@ -91,24 +112,14 @@ int main()
     //Person* temp = new Student("Alice", "456-123-7890", "alice@nu.edu", "second");
     list.push_back(new Student("Alice", "456-123-7890", "alice@nu.edu", "freshman"));
     list.push_back(new Person("David", "123-456-7890", "david@nu.edu"));
-    list.push_back(new Employee("Mary", "159-845-1948", "mary@nu.edu", 15000));
-    list.push_back(new Faculty("Jerry", "159-789-4958", "jerry@nu.edu", 10000, "adjuct faculty"));
+    list.push_back(new Employee("Mary", "159-845-1948", "mary@nu.edu", 150000));
+    list.push_back(new Faculty("Jerry", "159-789-4958", "jerry@nu.edu", 25000, "adjunct faculty"));
+    list.push_back(new Staff("Jessica", "987-555-0909", "jessica@nu.edu", 110000, "registration"));
 
-    for (auto m : list)
+    for (Person* p : list)
     {
-        cout << m->toString() << endl;
-        delete m;
+        cout << p->toString() << endl;
+        delete p;
     }
-
-   /* Person p("David", "123-456-7890", "david@nu.edu");
-    cout << p.toString() << endl;
-    Student s("Alice", "456-123-7890", "alice@nu.edu", "freshman");
-    cout << s.toString() << endl;
-    Employee e("Mary", "159-845-1948", "mary@nu.edu", 15000);
-    cout << e.toString() << endl;
-    Faculty f("Jerry", "159-789-4958", "jerry@nu.edu", 10000, "adjuct faculty");*/
-
-
+    return 0;
 }
-
-
